@@ -7,7 +7,7 @@ addpath(genpath('..'));
 h = [1, 1];
 tam = 101;
 
-initials = [51, 51];
+initials = [1, 1];
 
 ispeed = zeros(tam);
 ispeed2 = zeros(tam, tam, 2);

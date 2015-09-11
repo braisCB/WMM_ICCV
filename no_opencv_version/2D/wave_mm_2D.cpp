@@ -177,30 +177,23 @@ namespace wmm {
 
                 wmm::NodeD dd(h.y * (wmm::yarray[(wave.dir + 1) % 8] - wmm::yarray[wave.dir]), h.x * (wmm::xarray[(wave.dir + 1) % 8] - wmm::xarray[wave.dir]));
 
-                if (wmm::norm(dn - dp - dd) - wmm::norm(h) > wmm::TAU) {
-                    res1 = y0 + wmm::norm(dn - dp) * (wmm::norm(f0) + wmm::norm(fn)) / 2.0;
+                wmm::NodeD f1(image.at(p, 0), image.at(p, 1));
+                if (isinf(wmm::norm(f1)) || isnan(wmm::norm(f1)))
+                    f1 = fn;
+
+                double epsilon;
+                switch (mode) {
+                    case wmm::M_GRADIENT:
+                        epsilon = GetEpsilonGradient(dd, dp, dn, fn);
+                        break;
+                    case wmm::M_HOPFLAX:
+                        epsilon = GetEpsilonHopfLax(dd, dp, dn, y0, y1);
+                        break;
+                    default: //M_GOLDENSEARCH
+                        epsilon = GetEpsilonGoldenSearch(wave, dn, dd, dp, f0, f1, fn, interp, wmm::S_RIGHT);
                 }
-                else {
 
-                    wmm::NodeD f1(image.at(p, 0), image.at(p, 1));
-                    if (isinf(wmm::norm(f1)) || isnan(wmm::norm(f1)))
-                        f1 = fn;
-
-                    double epsilon;
-                    switch (mode) {
-                        case wmm::M_GRADIENT:
-                            epsilon = GetEpsilonGradient(dd, dp, dn, fn);
-                            break;
-                        case wmm::M_HOPFLAX:
-                            epsilon = GetEpsilonHopfLax(dd, dp, dn, y0, y1);
-                            break;
-                        default: //M_GOLDENSEARCH
-                            epsilon = GetEpsilonGoldenSearch(wave, dn, dd, dp, f0, f1, fn, interp, wmm::S_RIGHT);
-                    }
-
-                    res1 = GetInterpValue(wave, dp, dd, dn, f0, f1, fn, epsilon, interp, wmm::S_RIGHT);
-
-                }
+                res1 = GetInterpValue(wave, dp, dd, dn, f0, f1, fn, epsilon, interp, wmm::S_RIGHT);
             }
 
             p = wmm::Node(wave.p.y + wmm::yarray[(wave.dir + 7) % 8] - wmm::yarray[wave.dir],
@@ -212,29 +205,23 @@ namespace wmm {
 
                 wmm::NodeD dd(h.y * (wmm::yarray[(wave.dir + 7) % 8] - wmm::yarray[wave.dir]), h.x * (wmm::xarray[(wave.dir + 7) % 8] - wmm::xarray[wave.dir]));
 
-                if (wmm::norm(dn - dp - dd) - wmm::norm(h) > wmm::TAU) {
-                    res2 = y0 + wmm::norm(dn - dp) * (wmm::norm(f0) + wmm::norm(fn)) / 2.0;
+                wmm::NodeD f1(image.at(p, 0), image.at(p, 1));
+                if (isinf(wmm::norm(f1)) || isnan(wmm::norm(f1)))
+                    f1 = fn;
+
+                double epsilon;
+                switch (mode) {
+                    case wmm::M_GRADIENT:
+                        epsilon = GetEpsilonGradient(dd, dp, dn, fn);
+                        break;
+                    case wmm::M_HOPFLAX:
+                        epsilon = GetEpsilonHopfLax(dd, dp, dn, y0, y1);
+                        break;
+                    default: //M_GOLDENSEARCH
+                        epsilon = GetEpsilonGoldenSearch(wave, dn, dd, dp, f0, f1, fn, interp, wmm::S_LEFT);
                 }
-                else {
 
-                    wmm::NodeD f1(image.at(p, 0), image.at(p, 1));
-                    if (isinf(wmm::norm(f1)) || isnan(wmm::norm(f1)))
-                        f1 = fn;
-
-                    double epsilon;
-                    switch (mode) {
-                        case wmm::M_GRADIENT:
-                            epsilon = GetEpsilonGradient(dd, dp, dn, fn);
-                            break;
-                        case wmm::M_HOPFLAX:
-                            epsilon = GetEpsilonHopfLax(dd, dp, dn, y0, y1);
-                            break;
-                        default: //M_GOLDENSEARCH
-                            epsilon = GetEpsilonGoldenSearch(wave, dn, dd, dp, f0, f1, fn, interp, wmm::S_LEFT);
-                    }
-
-                    res2 = GetInterpValue(wave, dp, dd, dn, f0, f1, fn, epsilon, interp, wmm::S_LEFT);
-                }
+                res2 = GetInterpValue(wave, dp, dd, dn, f0, f1, fn, epsilon, interp, wmm::S_LEFT);
 
             }
 

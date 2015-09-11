@@ -28,6 +28,6 @@ function [ surface ] = wmm2D(potential, initials, h, sfunc, ifunc)
 %
 
 
-addpath('./mex');
+%addpath('./mex');
 
 [ surface ] = wmm2D_c(potential, initials, h, sfunc, ifunc);

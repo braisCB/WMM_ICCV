@@ -7,7 +7,7 @@ cont = 1;
 for j=1:size(interp,1)
     for k=1:size(mode,1)
         label = ['wmm_', interp{j}, '_', mode{k}];
-        disp(label);
+        %disp(label);
         t = cputime;
         for i=1:it
             surf{cont} = wmm2D(ispeed2, initials, h, interp{j}, mode{k});

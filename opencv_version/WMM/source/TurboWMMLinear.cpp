@@ -75,6 +75,8 @@ cv::Mat TurboWMMLinear::AniSurfaceGrad(cv::Mat& image, cv::vector<cv::Point>& in
         mapa_trial.erase(mapa_trial_it);
         
         state.at<unsigned char>(winner.p) = P_ALIVE;
+
+
         
         for (int i=0; i < 8; i++) {
             this->isnewpos[i] = false;
@@ -237,6 +239,7 @@ cv::Mat TurboWMMLinear::AniSurfaceHL(cv::Mat& image, cv::vector<cv::Point>& init
                 else {
                     state.at<unsigned char>(new_w.p) = P_TRIAL;
                 }
+
                 new_w.v0 = valcenter[i];
                 new_w.v1 = valcenter[(i+1)%8];
                 new_w.v2 = valcenter[(i+7)%8];
@@ -627,6 +630,7 @@ double TurboWMMLinear::HopfLax(cv::Mat &image, cv::Mat &u_surface, TIsoWavefront
                 }
             }
         }
+
         val = std::min(res1, res2);
         
     }
